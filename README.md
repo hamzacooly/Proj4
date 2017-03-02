@@ -1,5 +1,5 @@
 # README: EE422C Project 4
-##### https://github.com/hamzacooly/Proj4
+[Github URL](https://github.com/hamzacooly/Proj4)
 
 ## Hamza Khatri
 ### hak533

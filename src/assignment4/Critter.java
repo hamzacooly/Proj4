@@ -50,11 +50,23 @@ public abstract class Critter {
 	private int x_coord;
 	private int y_coord;
 	
+	private int movementCount; //can we add new fields?
+                               //should be set to 0 at beginning of each TimeStep
+	
 	protected final void walk(int direction) {
+	    if (movementCount < 1) {
+            coordChange(direction, 1);
+        }
+	    energy -= Params.walk_energy_cost;
+	    movementCount++;
 	}
 	
 	protected final void run(int direction) {
-		
+		if (movementCount < 1) {
+		    coordChange(direction, 2);
+        }
+		energy -= Params.run_energy_cost;
+		movementCount++;
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
@@ -178,4 +190,18 @@ public abstract class Critter {
 	public static void displayWorld() {
 		// Complete this method.
 	}
+
+	public void coordChange(int direction, int distance) {
+        switch(direction) {
+            case 0: x_coord += distance; break;
+            case 1: x_coord += distance; y_coord -= distance; break;
+            case 2: y_coord -= distance; break;
+            case 3: x_coord -= distance; y_coord -= distance; break;
+            case 4: x_coord -= distance; break;
+            case 5: x_coord -= distance; y_coord += distance; break;
+            case 6: y_coord += distance; break;
+            case 7: x_coord += distance; y_coord += distance; break;
+        }
+    }
+
 }

@@ -69,7 +69,18 @@ public abstract class Critter {
 		movementCount++;
 	}
 	
-	protected final void reproduce(Critter offspring, int direction) {
+	protected final void reproduce(Critter offspring, int direction) { //Ali
+        if (this.energy < Params.min_reproduce_energy) return;
+        else {
+            offspring.energy = (this.energy / 2);
+            this.energy -= offspring.energy;
+
+            offspring.x_coord = this.x_coord;
+            offspring.y_coord = this.y_coord;
+            offspring.coordChange(direction, 1);
+
+            babies.add(offspring);
+        }
 	}
 
 	public abstract void doTimeStep();

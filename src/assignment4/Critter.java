@@ -86,6 +86,30 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+        
+        Class<?> myCritter = null;
+        Constructor<?> constructor = null;
+        Object instanceOfMyCritter = null;
+
+        try {
+            myCritter = Class.forName(critter_class_name); //myPackage + class name
+        } catch (ClassNotFoundException e) {
+            throw new InvalidCritterException(critter_class_name);
+        }
+
+        try {
+            constructor = myCritter.getConstructor();
+            instanceOfMyCritter = constructor.newInstance();
+        } catch (Exception e) {
+            throw new InvalidCritterException(critter_class_name);
+        }
+
+        Critter me = (Critter)instanceOfMyCritter;
+        me.x_coord = getRandomInt(Params.world_width);
+        me.y_coord = getRandomInt(Params.world_height);
+        me.energy = Params.start_energy;
+        population.add(me);
+
 	}
 	
 	/**
@@ -97,6 +121,22 @@ public abstract class Critter {
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
 	
+		Class<?> myCritter = null;
+
+        try {
+            myCritter = Class.forName(critter_class_name); //myPackage + class name
+        } catch (ClassNotFoundException e) {
+            throw new InvalidCritterException(critter_class_name);
+        }
+
+        Class classType = myCritter.getClass();
+
+		for (Critter k : population){
+		    if (classType.isInstance(k)){
+		        result.add(k);
+            }
+        }
+
 		return result;
 	}
 	
@@ -191,7 +231,7 @@ public abstract class Critter {
 		// Complete this method.
 	}
 
-	public void coordChange(int direction, int distance) {
+	private void coordChange(int direction, int distance) {
         switch(direction) {
             case 0: x_coord += distance; break;
             case 1: x_coord += distance; y_coord -= distance; break;

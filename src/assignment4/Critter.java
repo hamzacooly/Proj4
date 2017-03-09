@@ -50,6 +50,8 @@ public abstract class Critter {
 	
 	private int x_coord;
 	private int y_coord;
+	private boolean hasMoved;
+	private boolean inFight;
 	
 	protected final void walk(int direction) {
 	}
@@ -59,6 +61,7 @@ public abstract class Critter {
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
+		
 	}
 
 	public abstract void doTimeStep();
@@ -80,16 +83,16 @@ public abstract class Critter {
 		Object instanceOfMyCritter = null;
 
 		try {
-			myCritter = Class.forName(critter_class_name); 	// Class object of specified name
+			myCritter = Class.forName(myPackage + "." + critter_class_name); 	// Class object of specified name
 		} catch (ClassNotFoundException e) {
-			throw new InvalidCritterException(critter_class_name);
+			throw new InvalidCritterException(myPackage + "." + critter_class_name);
 		}
 		try {
 			constructor = myCritter.getConstructor();		// No-parameter constructor object
 			instanceOfMyCritter = constructor.newInstance();	// Create new object using constructor
 		} catch (Exception e) { // various exceptions
 			// Do whatever is needed to handle the various exceptions here -- e.g. rethrow Exception
-			throw new InvalidCritterException(critter_class_name);
+			throw new InvalidCritterException(myPackage + "." + critter_class_name);
 		}
 		Critter me = (Critter)instanceOfMyCritter;		// Cast to Critter
 		me.x_coord = getRandomInt(Params.world_width);
@@ -106,7 +109,17 @@ public abstract class Critter {
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
-	
+		Class<?> myCritter = null;
+		try {
+			myCritter = Class.forName(critter_class_name); 	// Class object of specified name
+		} catch (ClassNotFoundException e) {
+			throw new InvalidCritterException(critter_class_name);
+		}
+		Class<?> classType = myCritter.getClass();
+		for(Critter k : population){
+			if(classType.isInstance(k))
+				result.add(k);
+		}
 		return result;
 	}
 	
@@ -191,10 +204,73 @@ public abstract class Critter {
 	 */
 	public static void clearWorld() {
 		// Complete this method.
+		population.clear();
 	}
 	
 	public static void worldTimeStep() {
-		// Complete this method.
+		// Do the time steps
+		for(Critter c : population){
+			c.hasMoved = false;
+			c.doTimeStep();
+		}
+		
+		// Resolve the fites
+		encounters();
+		
+		// Update da rest energy
+		for(Critter c: population){
+			c.energy -= Params.rest_energy_cost;
+		}
+		
+		// Add some algae boiii
+		for(int k = 0; k < Params.refresh_algae_count; k++){
+			try{
+				makeCritter("Algae");
+			}
+			catch(Exception e){}
+		}
+		
+		// Add da babies
+		population.addAll(babies);
+		babies.clear();
+		
+		// Remove da ded bugs
+		Iterator<Critter> jj = population.iterator();
+		while(jj.hasNext()){
+			Critter k = jj.next();
+			if(k.energy <= 0)
+				jj.remove();
+		}
+	}
+	
+	private static void encounters(){
+		for(Critter c: population){
+			for(Critter k: population){
+				if(!c.equals(k) && (c.x_coord == k.x_coord) && (c.y_coord == k.y_coord) && (c.energy > 0) && (k.energy > 0)){
+					c.inFight = true;
+					k.inFight = true;
+					boolean cfite = c.fight(k.toString());
+					boolean kfite = k.fight(c.toString());
+					boolean cwins = false;
+					if((c.x_coord == k.x_coord) && (c.y_coord == k.y_coord) && (c.energy > 0) && (k.energy > 0)){
+						int cdmg = (cfite)?getRandomInt(c.energy):0;
+						int kdmg = (kfite)?getRandomInt(k.energy):0;
+						if(cdmg > kdmg)
+							cwins = true;
+					}
+					if(cwins){
+						c.energy += k.energy/2;
+						k.energy = -1;
+					}
+					else{
+						k.energy += c.energy/2;
+						c.energy = -1;
+					}
+					c.inFight = false;
+					k.inFight = false;
+				}
+			}
+		}
 	}
 	
 	public static void displayWorld() {

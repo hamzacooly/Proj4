@@ -50,23 +50,24 @@ public abstract class Critter {
 	private int x_coord;
 	private int y_coord;
 	
-	private int movementCount; //can we add new fields?
-                               //should be set to 0 at beginning of each TimeStep
-	
+	private boolean hasMoved;
+
+	private boolean inFight;
+
 	protected final void walk(int direction) {
-	    if (movementCount < 1) {
+	    if (!hasMoved || inFight) {
             coordChange(direction, 1);
         }
 	    energy -= Params.walk_energy_cost;
-	    movementCount++;
+	    hasMoved = true;
 	}
 	
 	protected final void run(int direction) {
-		if (movementCount < 1) {
+		if (!hasMoved || inFight) {
 		    coordChange(direction, 2);
         }
 		energy -= Params.run_energy_cost;
-		movementCount++;
+		hasMoved = true;
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) { //Ali

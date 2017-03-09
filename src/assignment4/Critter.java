@@ -13,7 +13,8 @@ package assignment4;
  */
 
 
-import java.util.List;
+import java.util.*;
+import java.lang.reflect.*;
 
 /* see the PDF for descriptions of the methods and fields in this class
  * you may add fields, methods or inner classes to Critter ONLY if you make your additions private
@@ -74,6 +75,27 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+		Class<?> myCritter = null;
+		Constructor<?> constructor = null;
+		Object instanceOfMyCritter = null;
+
+		try {
+			myCritter = Class.forName(critter_class_name); 	// Class object of specified name
+		} catch (ClassNotFoundException e) {
+			throw new InvalidCritterException(critter_class_name);
+		}
+		try {
+			constructor = myCritter.getConstructor();		// No-parameter constructor object
+			instanceOfMyCritter = constructor.newInstance();	// Create new object using constructor
+		} catch (Exception e) { // various exceptions
+			// Do whatever is needed to handle the various exceptions here -- e.g. rethrow Exception
+			throw new InvalidCritterException(critter_class_name);
+		}
+		Critter me = (Critter)instanceOfMyCritter;		// Cast to Critter
+		me.x_coord = getRandomInt(Params.world_width);
+		me.y_coord = getRandomInt(Params.world_height);
+		me.energy = Params.start_energy;
+		population.add(me);
 	}
 	
 	/**

@@ -53,9 +53,6 @@ public abstract class Critter {
 	private boolean hasMoved;
 	private boolean inFight;
 	
-	private boolean hasMoved;
-
-	private boolean inFight;
 
 	protected final void walk(int direction) {
 	    int initialX = this.x_coord;

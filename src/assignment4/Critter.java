@@ -53,15 +53,70 @@ public abstract class Critter {
 	private boolean hasMoved;
 	private boolean inFight;
 	
+	private boolean hasMoved;
+
+	private boolean inFight;
+
 	protected final void walk(int direction) {
+	    int initialX = this.x_coord;
+	    int initialY = this.y_coord;
+
+	    if (!hasMoved) {
+            coordChange(direction, 1);
+        }
+
+        if (inFight) {
+	        for (Critter c : population) {
+	            if (this.x_coord == c.x_coord && this.y_coord == c.y_coord && !this.equals(c)){
+	                this.x_coord = initialX;
+	                this.y_coord = initialY;
+                }
+            }
+        } else {
+	        hasMoved = true;
+        }
+
+        if (hasMoved) {
+            energy -= Params.walk_energy_cost;
+        }
 	}
 	
 	protected final void run(int direction) {
-		
+        int initialX = this.x_coord;
+        int initialY = this.y_coord;
+
+        if (!hasMoved) {
+            coordChange(direction, 2);
+        }
+
+        if (inFight) {
+            for (Critter c : population) {
+                if (this.x_coord == c.x_coord && this.y_coord == c.y_coord && !this.equals(c)){
+                    this.x_coord = initialX;
+                    this.y_coord = initialY;
+                }
+            }
+        } else {
+            hasMoved = true;
+        }
+
+        if (hasMoved) {
+            energy -= Params.run_energy_cost;
+        }
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
-		
+        if (this.energy < Params.min_reproduce_energy) return;
+        else {
+            offspring.energy = (this.energy / 2);
+            this.energy -= offspring.energy;
+
+            offspring.x_coord = this.x_coord;
+            offspring.y_coord = this.y_coord;
+            offspring.coordChange(direction, 1);
+
+            babies.add(offspring);
+        }
 	}
 
 	public abstract void doTimeStep();
@@ -276,4 +331,18 @@ public abstract class Critter {
 	public static void displayWorld() {
 		// Complete this method.
 	}
+
+	private void coordChange(int direction, int distance) {
+        switch(direction) {
+            case 0: x_coord += distance; break;
+            case 1: x_coord += distance; y_coord -= distance; break;
+            case 2: y_coord -= distance; break;
+            case 3: x_coord -= distance; y_coord -= distance; break;
+            case 4: x_coord -= distance; break;
+            case 5: x_coord -= distance; y_coord += distance; break;
+            case 6: y_coord += distance; break;
+            case 7: x_coord += distance; y_coord += distance; break;
+        }
+    }
+
 }

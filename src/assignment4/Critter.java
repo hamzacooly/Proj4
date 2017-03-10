@@ -328,9 +328,11 @@ public abstract class Critter {
 		// Complete this method.
 		int[][] world = new int[Params.world_width+2][Params.world_height+2];
 		if(population.size() > 0){
-			for(Critter c: population){
-				if(world[c.x_coord][c.y_coord] == 0)
-					world[c.x_coord][c.y_coord] = population.indexOf(c);
+			for(int k = 0; k < population.size(); k++){
+				int x = population.get(k).x_coord+1;
+				int y = population.get(k).y_coord+1;
+				if(world[x][y] == 0)
+					world[x][y] = k+1;
 			}
 			for(int k = 0; k < Params.world_height+2; k++){
 				for(int j = 0; j < Params.world_width+2; j++){

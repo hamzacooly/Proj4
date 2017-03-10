@@ -14,6 +14,7 @@ package assignment4;
 
 import java.util.*;
 import java.io.*;
+import java.lang.reflect.*;
 
 
 /*
@@ -81,7 +82,7 @@ public class Main {
             else if(input.equals("show")){
             	Critter.displayWorld();
             }
-            else if(input.matches("step [^0-9]")){
+            else if(input.matches("step \\d+")){
             	int steps = Integer.parseInt(tok.nextToken());
             	for(int k = 0; k < steps; k++){
             		Critter.worldTimeStep();
@@ -90,11 +91,11 @@ public class Main {
             else if(input.equals("step")){
             	Critter.worldTimeStep();
             }
-            else if(input.matches("seed [^0-9]")){
+            else if(input.matches("seed \\d+")){
             	int seed = Integer.parseInt(tok.nextToken());
             	Critter.setSeed(seed);
             }
-            else if(input.matches("make \\w")){
+            else if(input.matches("make \\w+")){
             	try{
             		Critter.makeCritter(tok.nextToken());
             	}
@@ -103,7 +104,7 @@ public class Main {
         			continue;
             	}
             }
-            else if(input.matches("make \\w [^0-9]")){
+            else if(input.matches("make \\w+ \\d+")){
             	String name = tok.nextToken();
             	int num = Integer.parseInt(tok.nextToken());
             	// See if input is valid.
@@ -123,16 +124,29 @@ public class Main {
             		}
             	}
             }
-            else if(input.matches("stats \\w")){
+            else if(input.matches("stats \\w+")){
             	List<Critter> critters;
+            	String name = tok.nextToken();
             	try{
-            		critters = Critter.getInstances(tok.nextToken());
+            		critters = Critter.getInstances(name);
             	}
             	catch(Exception e){
             		System.out.println("error processing: " + input);
             		continue;
             	}
-            	Critter.runStats(critters);
+            	Class<?> myCritter = null;
+        		try {
+        			myCritter = Class.forName(myPackage + "." + name); 	// Class object of specified name
+        		} catch (ClassNotFoundException e) {
+        			continue;
+        		}
+        		try{
+        			Method method = myCritter.getMethod("runStats", List.class);
+        			method.invoke(null, critters);
+        		}
+        		catch(Exception e){
+        			Critter.runStats(critters);
+        		}
             }
             else{
         		System.out.println("error processing: " + input);

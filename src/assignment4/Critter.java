@@ -163,13 +163,12 @@ public abstract class Critter {
 		List<Critter> result = new ArrayList<Critter>();
 		Class<?> myCritter = null;
 		try {
-			myCritter = Class.forName(critter_class_name); 	// Class object of specified name
+			myCritter = Class.forName(myPackage + "." + critter_class_name); 	// Class object of specified name
 		} catch (ClassNotFoundException e) {
-			throw new InvalidCritterException(critter_class_name);
+			throw new InvalidCritterException(myPackage + "." + critter_class_name);
 		}
-		Class<?> classType = myCritter.getClass();
 		for(Critter k : population){
-			if(classType.isInstance(k))
+			if(myCritter.isInstance(k))
 				result.add(k);
 		}
 		return result;
@@ -327,11 +326,61 @@ public abstract class Critter {
 	
 	public static void displayWorld() {
 		// Complete this method.
+		int[][] world = new int[Params.world_width+2][Params.world_height+2];
 		if(population.size() > 0){
-			
+			for(Critter c: population){
+				if(world[c.x_coord][c.y_coord] == 0)
+					world[c.x_coord][c.y_coord] = population.indexOf(c);
+			}
+			for(int k = 0; k < Params.world_height+2; k++){
+				for(int j = 0; j < Params.world_width+2; j++){
+					// Account for the border
+					if(k == 0 || k == Params.world_height+1){
+						if(j == 0 || j == Params.world_width+1)
+							System.out.print("+");
+						else
+							System.out.print("-");
+								
+					}
+					else if(j == 0 || j == Params.world_width+1){
+						if(k == 0 || k == Params.world_height+1)
+							System.out.print("+");
+						else
+							System.out.print("|");
+					}
+					else{
+						if(world[j][k] != 0)
+							System.out.print(population.get(world[j][k] - 1).toString());
+						else
+							System.out.print(" ");
+					}
+				}
+				System.out.println();
+			}
 		}
 		else{
-			
+			for(int k = 0; k < Params.world_height+2; k++){
+				for(int j = 0; j < Params.world_width+2; j++){
+					// Account for the border
+					if(k == 0 || k == Params.world_height+1){
+						if(j == 0 || j == Params.world_width+1)
+							System.out.print("+");
+						else
+							System.out.print("-");
+								
+					}
+					else if(j == 0 || j == Params.world_width+1){
+						if(k == 0 || k == Params.world_height+1)
+							System.out.print("+");
+						else
+							System.out.print("|");
+					}
+					else{
+						System.out.print(" ");
+					}
+				}
+				System.out.println();
+			}
 		}
 	}
 

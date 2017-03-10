@@ -12,7 +12,7 @@ package assignment4;
  * Spring 2017
  */
 
-import java.util.Scanner;
+import java.util.*;
 import java.io.*;
 
 
@@ -70,7 +70,76 @@ public class Main {
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
         
-        // System.out.println("GLHF");
+        while(true){
+        	System.out.print("critters>");
+        	String input = kb.nextLine();
+        	StringTokenizer tok = new StringTokenizer(input);
+        	String input1 = tok.nextToken();
+            if(input.equals("quit")){
+            	break;
+            }
+            else if(input.equals("show")){
+            	Critter.displayWorld();
+            }
+            else if(input.matches("step [^0-9]")){
+            	int steps = Integer.parseInt(tok.nextToken());
+            	for(int k = 0; k < steps; k++){
+            		Critter.worldTimeStep();
+            	}
+            }
+            else if(input.equals("step")){
+            	Critter.worldTimeStep();
+            }
+            else if(input.matches("seed [^0-9]")){
+            	int seed = Integer.parseInt(tok.nextToken());
+            	Critter.setSeed(seed);
+            }
+            else if(input.matches("make \\w")){
+            	try{
+            		Critter.makeCritter(tok.nextToken());
+            	}
+            	catch(Exception e){
+            		System.out.println("error processing: " + input);
+        			continue;
+            	}
+            }
+            else if(input.matches("make \\w [^0-9]")){
+            	String name = tok.nextToken();
+            	int num = Integer.parseInt(tok.nextToken());
+            	// See if input is valid.
+            	try{
+        			Critter.makeCritter(name);
+        		}
+        		catch(Exception e){
+        			System.out.println("error processing: " + input);
+        			continue;
+        		}
+            	
+            	for(int k = 1; k < num; k++){
+            		try{
+            			Critter.makeCritter(name);
+            		}
+            		catch(Exception e){
+            		}
+            	}
+            }
+            else if(input.matches("stats \\w")){
+            	List<Critter> critters;
+            	try{
+            		critters = Critter.getInstances(tok.nextToken());
+            	}
+            	catch(Exception e){
+            		System.out.println("error processing: " + input);
+            		continue;
+            	}
+            	Critter.runStats(critters);
+            }
+            else{
+        		System.out.println("error processing: " + input);
+        		continue;
+            }
+        }
+        
         
         /* Write your code above */
         System.out.flush();

@@ -327,6 +327,12 @@ public abstract class Critter {
 	
 	public static void displayWorld() {
 		// Complete this method.
+		if(population.size() > 0){
+			
+		}
+		else{
+			
+		}
 	}
 
 	private void coordChange(int direction, int distance) {

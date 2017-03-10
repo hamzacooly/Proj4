@@ -54,6 +54,13 @@ public abstract class Critter {
 	private boolean inFight;
 	
 
+	/**
+	 * Moves 1 step in the given direction
+	 * Checks if critter has already moved
+	 * If critter is in fight, checks if it is moving to an already occupied space
+	 * Deducts energy if critter moved/attempted to move
+	 * @param direction 0-7, refers to cardinal directions
+	 */
 	protected final void walk(int direction) {
 	    int initialX = this.x_coord;
 	    int initialY = this.y_coord;
@@ -78,6 +85,13 @@ public abstract class Critter {
         }
 	}
 	
+	/**
+	 * Moves 2 steps in the given direction
+	 * Checks if critter has already moved
+	 * If critter is in fight, checks if it is moving to an already occupied space
+	 * Deducts energy if critter moved/attempted to move
+	 * @param direction 0-7, refers to cardinal directions
+	 */
 	protected final void run(int direction) {
         int initialX = this.x_coord;
         int initialY = this.y_coord;
@@ -102,6 +116,13 @@ public abstract class Critter {
         }
 	}
 	
+
+	/**
+	 * Checks if parent has enough energy to make baby
+	 * If it does, initializes baby fields and adds it to Babies List
+	 * @param offspring Critter passed from parent's doTimeStep()
+	 * @param direction where baby will spawn in relation to parent
+	 */
 	protected final void reproduce(Critter offspring, int direction) {
         if (this.energy < Params.min_reproduce_energy) return;
         else {
@@ -259,6 +280,7 @@ public abstract class Critter {
 		population.clear();
 	}
 	
+	/** Causes time to move forward */
 	public static void worldTimeStep() {
 		// Do the time steps
 		for(Critter c : population){
@@ -295,6 +317,11 @@ public abstract class Critter {
 		}
 	}
 	
+	/** 
+	 * Takes care of instances of multiple critters occupying the same space
+	 * by having them fight
+	 * Goes through all critters in the population
+	 */
 	private static void encounters(){
 		for(Critter c: population){
 			for(Critter k: population){
@@ -325,6 +352,7 @@ public abstract class Critter {
 		}
 	}
 	
+	/** Prints grid display of world using ASCII characters onto console */
 	public static void displayWorld() {
 		// Complete this method.
 		if(population.size() > 0){
@@ -335,6 +363,11 @@ public abstract class Critter {
 		}
 	}
 
+	/** 
+	 * Changes coordinates depending on direction and distance
+	 * @param direction 0-7, refers to cardinal directions
+	 * @param distance how many steps to move
+	 */
 	private void coordChange(int direction, int distance) {
         switch(direction) {
             case 0: x_coord += distance; break;

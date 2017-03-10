@@ -160,7 +160,7 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
-		List<Critter> result = new java.util.ArrayList<Critter>();
+		List<Critter> result = new ArrayList<Critter>();
 		Class<?> myCritter = null;
 		try {
 			myCritter = Class.forName(critter_class_name); 	// Class object of specified name
@@ -309,14 +309,14 @@ public abstract class Critter {
 						int kdmg = (kfite)?getRandomInt(k.energy):0;
 						if(cdmg > kdmg)
 							cwins = true;
-					}
-					if(cwins){
-						c.energy += k.energy/2;
-						k.energy = -1;
-					}
-					else{
-						k.energy += c.energy/2;
-						c.energy = -1;
+						if(cwins){
+							c.energy += k.energy/2;
+							k.energy = -1;
+						}
+						else{
+							k.energy += c.energy/2;
+							c.energy = -1;
+						}
 					}
 					c.inFight = false;
 					k.inFight = false;
@@ -327,6 +327,12 @@ public abstract class Critter {
 	
 	public static void displayWorld() {
 		// Complete this method.
+		if(population.size() > 0){
+			
+		}
+		else{
+			
+		}
 	}
 
 	private void coordChange(int direction, int distance) {

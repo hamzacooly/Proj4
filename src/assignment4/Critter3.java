@@ -47,18 +47,19 @@ public class Critter3 extends Critter {
 	
 	public static void runStats(List<Critter> critters){
 		System.out.print("Total Critter3's: " + critters.size() + "\t");
-		int avgAg = 0;
-		int avgAge = 0;
-		for(Critter c: critters){
-			avgAg += ((Critter3)c).aggressiveness;
-			avgAge += ((Critter3)c).age;
+		if(critters.size() > 0){
+			int avgAg = 0;
+			int avgAge = 0;
+			for(Critter c: critters){
+				avgAg += ((Critter3)c).aggressiveness;
+				avgAge += ((Critter3)c).age;
+			}
+			avgAg /= critters.size();
+			avgAge /= critters.size();
+			System.out.print("Avg Aggressiveness: " + avgAg + "\t");
+			System.out.print("Avg Age: " + avgAge);
 		}
-		avgAg /= critters.size();
-		avgAge /= critters.size();
-		System.out.print("Avg Aggressiveness: " + avgAg + "\t");
-		System.out.print("Avg Age: " + avgAge);
 		System.out.println();
-		
 	}
 
 }

@@ -40,16 +40,18 @@ public class Critter4 extends Critter {
 	
 	public static void runStats(java.util.List<Critter> critters){
 		System.out.print("Total Critter4's: " + critters.size() + "\t");
-		int avgconf = 0;
-		int avgint = 0;
-		for(Critter c: critters){
-			avgconf += ((Critter4)c).confidence;
-			avgint += ((Critter4)c).intellect;
+		if(critters.size() > 0){
+			int avgconf = 0;
+			int avgint = 0;
+			for(Critter c: critters){
+				avgconf += ((Critter4)c).confidence;
+				avgint += ((Critter4)c).intellect;
+			}
+			avgconf /= critters.size();
+			avgint /= critters.size();
+			System.out.print("Avg Confidence: " + avgconf + "\t");
+			System.out.print("Avg Intellect: " + avgint);
 		}
-		avgconf /= critters.size();
-		avgint /= critters.size();
-		System.out.print("Avg Confidence: " + avgconf + "\t");
-		System.out.print("Avg Intellect: " + avgint);
 		System.out.println();
 	}
 }

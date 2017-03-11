@@ -12,7 +12,7 @@ public class Critter1 extends Critter {
     /**
      * @return ASCII representation of critter
      */
-    public String toString() { return "A"; }
+    public String toString() { return "1"; }
 
 
     /** Makes baby in random direction */

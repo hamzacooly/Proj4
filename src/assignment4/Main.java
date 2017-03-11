@@ -1,6 +1,6 @@
 package assignment4;
 /* CRITTERS Main.java
-/* EE422C Project 4 submission by
+ * EE422C Project 4 submission by
  * Hamza Khatri
  * hak533
  * 16220

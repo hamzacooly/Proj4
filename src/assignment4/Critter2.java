@@ -1,5 +1,18 @@
 package assignment4;
 
+/* CRITTERS Critter2.java
+ * EE422C Project 4 submission by
+ * Hamza Khatri
+ * hak533
+ * 16220
+ * Slip days used: <0>
+ * Mohammad Kedwaii
+ * mak3799
+ * 16238
+ * Slip days used: <0>
+ * Spring 2017
+ */
+
 import java.util.List;
 
 public class Critter2 extends Critter {

@@ -357,8 +357,8 @@ public abstract class Critter {
 		int[][] world = new int[Params.world_width+2][Params.world_height+2];
 		if(population.size() > 0){
 			for(int k = 0; k < population.size(); k++){
-				int x = population.get(k).x_coord+1;
-				int y = population.get(k).y_coord+1;
+				int x = population.get(k).x_coord +1;
+				int y = population.get(k).y_coord +1;
 				if(world[x][y] == 0)
 					world[x][y] = k+1;
 			}
@@ -430,6 +430,12 @@ public abstract class Critter {
             case 6: y_coord += distance; break;
             case 7: x_coord += distance; y_coord += distance; break;
         }
+        x_coord %= Params.world_width; 
+        if(x_coord < 0)
+        	x_coord += Params.world_width;
+        y_coord %= Params.world_height; 
+        if(y_coord < 0)
+        	y_coord += Params.world_height;
     }
 
 }

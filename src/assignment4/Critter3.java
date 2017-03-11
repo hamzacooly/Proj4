@@ -10,6 +10,7 @@ public class Critter3 extends Critter {
 		age = 0;
 		aggressiveness = Critter.getRandomInt(100);
 	}
+	
 	@Override
 	public void doTimeStep() {
 		// Produce babies corresponding to age lol
@@ -30,7 +31,12 @@ public class Critter3 extends Critter {
 		else if(aggressiveness > 40)
 			walk(Critter.getRandomInt(8));
 	}
-
+	
+	/**
+	 * Fights based on its aggressiveness level.
+	 * @param oponent The opponent that the critter will be fighting
+	 * @return If the critter wants to fight or not
+	 */
 	@Override
 	public boolean fight(String oponent) {
 		// If it's aggressive, it will fight.
@@ -40,11 +46,17 @@ public class Critter3 extends Critter {
 			return false;
 	}
 	
+	/**
+	 * @return name of critter on the board.
+	 */
 	@Override
 	public String toString(){
 		return "3";
 	}
-	
+	/**
+	 * Displays total # critters, avg aggressiveness, and avg age.
+	 * @param critters List of Critter3 objects in the population
+	 */
 	public static void runStats(List<Critter> critters){
 		System.out.print("Total Critter3's: " + critters.size() + "\t");
 		if(critters.size() > 0){

@@ -13,18 +13,26 @@ public class Critter4 extends Critter {
 	}
 	
 	@Override
+	/**
+	 * @return name of critter on the board.
+	 */
 	public String toString(){
 		return "4";
 	}
-
+	
 	@Override
 	public void doTimeStep() {
 		walk(dir);
 		if(confidence > 90)
 			reproduce(new Critter4(), Critter.getRandomInt(8));
 	}
-
+	
 	@Override
+	/**
+	 * Decides to fight if its confident. Will waste energy if not intellectual enough.
+	 * @param oponent The opponent that the critter will be fighting
+	 * @return If the critter wants to fight or not
+	 */
 	public boolean fight(String oponent) {
 		if(confidence > 60){
 			if(intellect < 70)
@@ -38,6 +46,10 @@ public class Critter4 extends Critter {
 		}
 	}
 	
+	/**
+	 * Displays total # critters, avg confidence, and avg intellect.
+	 * @param critters List of Critter4 objects in the population
+	 */
 	public static void runStats(java.util.List<Critter> critters){
 		System.out.print("Total Critter4's: " + critters.size() + "\t");
 		if(critters.size() > 0){

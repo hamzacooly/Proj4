@@ -12,13 +12,18 @@ public class Critter3 extends Critter {
 	}
 	@Override
 	public void doTimeStep() {
-		// Produce babies correspoding to age lol
+		// Produce babies corresponding to age lol
 		if(age < 40){
 			for(int k = 0; k < age; k++){
 				Critter3 baby = new Critter3();
 				reproduce(baby, Critter.getRandomInt(8));
 			}
 		}
+		age++;
+		if(Critter.getRandomInt(123232)%2 == 0)
+			aggressiveness++;
+		else
+			aggressiveness--;
 		// Decide if it wants to walk or run based on aggressiveness
 		if(aggressiveness > 75)
 			run(Critter.getRandomInt(8));

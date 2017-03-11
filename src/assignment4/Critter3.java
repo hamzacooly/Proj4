@@ -45,7 +45,7 @@ public class Critter3 extends Critter {
 		return "3";
 	}
 	
-	public static void runStats(java.util.List<Critter> critters){
+	public static void runStats(List<Critter> critters){
 		System.out.print("Total Critter3's: " + critters.size() + "\t");
 		int avgAg = 0;
 		int avgAge = 0;

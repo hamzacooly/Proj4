@@ -67,19 +67,20 @@ public abstract class Critter {
 	    
 	    energy -= Params.walk_energy_cost;
 
-	    if (!hasMoved) {
-            coordChange(direction, 1);
-        }
-
-        if (inFight) {
-	        for (Critter c : population) {
-	            if (this.x_coord == c.x_coord && this.y_coord == c.y_coord && !this.equals(c)){
-	                this.x_coord = initialX;
-	                this.y_coord = initialY;
-                }
-            }
-        } else {
-	        hasMoved = true;
+	    if(hasMoved) return;
+	    
+	    else {
+	    	coordChange(direction, 1);
+	    	hasMoved = true;
+        	if (inFight) {
+	        	for (Critter c : population) {
+	            	if (this.x_coord == c.x_coord && this.y_coord == c.y_coord && !this.equals(c)){
+	                	this.x_coord = initialX;
+	                	this.y_coord = initialY;
+                		hasMoved = false;
+                	}
+            	}
+        	}
         }
 	}
 	
@@ -95,19 +96,20 @@ public abstract class Critter {
         int initialY = this.y_coord;
         energy -= Params.run_energy_cost;
 
-        if (!hasMoved) {
-            coordChange(direction, 2);
-        }
-
-        if (inFight) {
-            for (Critter c : population) {
-                if (this.x_coord == c.x_coord && this.y_coord == c.y_coord && !this.equals(c)){
-                    this.x_coord = initialX;
-                    this.y_coord = initialY;
-                }
-            }
-        } else {
-            hasMoved = true;
+        if (hasMoved) return;
+           
+        else {
+	    	coordChange(direction, 2);
+	    	hasMoved = true;
+        	if (inFight) {
+	        	for (Critter c : population) {
+	            	if (this.x_coord == c.x_coord && this.y_coord == c.y_coord && !this.equals(c)){
+	                	this.x_coord = initialX;
+	                	this.y_coord = initialY;
+                		hasMoved = false;
+                	}
+            	}
+        	}
         }
 	}
 	

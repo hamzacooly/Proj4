@@ -64,6 +64,8 @@ public abstract class Critter {
 	protected final void walk(int direction) {
 	    int initialX = this.x_coord;
 	    int initialY = this.y_coord;
+	    
+	    energy -= Params.walk_energy_cost;
 
 	    if (!hasMoved) {
             coordChange(direction, 1);
@@ -79,10 +81,6 @@ public abstract class Critter {
         } else {
 	        hasMoved = true;
         }
-
-        if (hasMoved) {
-            energy -= Params.walk_energy_cost;
-        }
 	}
 	
 	/**
@@ -95,6 +93,7 @@ public abstract class Critter {
 	protected final void run(int direction) {
         int initialX = this.x_coord;
         int initialY = this.y_coord;
+        energy -= Params.run_energy_cost;
 
         if (!hasMoved) {
             coordChange(direction, 2);
@@ -109,10 +108,6 @@ public abstract class Critter {
             }
         } else {
             hasMoved = true;
-        }
-
-        if (hasMoved) {
-            energy -= Params.run_energy_cost;
         }
 	}
 	

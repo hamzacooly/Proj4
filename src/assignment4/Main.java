@@ -149,7 +149,7 @@ public class Main {
         		}
             }
             else{
-        		System.out.println("error processing: " + input);
+        		System.out.println("invalid command: " + input);
         		continue;
             }
         }
